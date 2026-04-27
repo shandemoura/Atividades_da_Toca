@@ -8,7 +8,7 @@ import { characters } from '@/lib/characters'
 import { sounds } from '@/lib/sounds'
 import { cn } from '@/lib/utils'
 
-type Difficulty = 'facil' | 'medio'
+type Difficulty = '8' | '16' | '32'
 
 type Card = {
   uid: string
@@ -21,15 +21,20 @@ type Card = {
 
 const EXTRA_PAIRS = [
   { id: 'sala', name: 'Sala', image: '/characters/sala.png' },
-  { id: 'tosh2', name: 'Tosh', image: '/characters/tosh.png' },
-  { id: 'brenda2', name: 'Brenda', image: '/characters/brenda.png' },
 ]
 
 function buildDeck(difficulty: Difficulty): Card[] {
-  const pairs = difficulty === 'facil' ? 6 : 8
+  const pairs = Number(difficulty) / 2
   const base = [...characters?.map((c) => ({ id: c?.id, name: c?.name, image: c?.image })) ?? []]
-  // completar com extras se precisar
-  const source = [...base, ...EXTRA_PAIRS].slice(0, pairs)
+  const pool = [...base, ...EXTRA_PAIRS]
+  const source = Array.from({ length: pairs }, (_, i) => {
+    const item = pool[i % pool.length]
+    return {
+      id: item?.id ?? `x-${i}`,
+      name: item?.name ?? '',
+      image: item?.image ?? '',
+    }
+  })
   const deck: Card[] = []
   source?.forEach((s, i) => {
     deck.push({
@@ -58,7 +63,7 @@ function buildDeck(difficulty: Difficulty): Card[] {
 }
 
 export function MemoryGame() {
-  const [difficulty, setDifficulty] = useState<Difficulty>('facil')
+  const [difficulty, setDifficulty] = useState<Difficulty>('8')
   const [deck, setDeck] = useState<Card[]>([])
   const [selected, setSelected] = useState<string[]>([])
   const [moves, setMoves] = useState(0)
@@ -69,7 +74,7 @@ export function MemoryGame() {
 
   useEffect(() => {
     setMounted(true)
-    setDeck(buildDeck('facil'))
+    setDeck(buildDeck('8'))
   }, [])
 
   // timer
@@ -159,7 +164,7 @@ export function MemoryGame() {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
   }, [seconds])
 
-  const gridCols = difficulty === 'facil' ? 'grid-cols-3 sm:grid-cols-4' : 'grid-cols-4'
+  const gridCols = difficulty === '8' ? 'grid-cols-4' : difficulty === '16' ? 'grid-cols-4 sm:grid-cols-6' : 'grid-cols-4 sm:grid-cols-8'
 
   if (!mounted) {
     return <div className="h-96" />
@@ -182,7 +187,7 @@ export function MemoryGame() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex overflow-hidden rounded-full border-2 border-[#6B4423]/15 bg-[#FFF5EB] p-1 dark:bg-[hsl(20_30%_18%)]">
-            {(['facil', 'medio'] as Difficulty[])?.map((d) => (
+            {(['8', '16', '32'] as Difficulty[])?.map((d) => (
               <button
                 key={d}
                 onClick={() => reset(d)}
@@ -193,7 +198,7 @@ export function MemoryGame() {
                     : 'text-[#6B4423] hover:bg-white dark:text-[#FFD0A8] dark:hover:bg-[hsl(20_30%_22%)]',
                 )}
               >
-                {d === 'facil' ? 'Fácil (6 pares)' : 'Médio (8 pares)'}
+                {d} peças
               </button>
             ))}
           </div>

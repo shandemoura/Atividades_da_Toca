@@ -4,16 +4,29 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RotateCcw, Trophy, Eye, EyeOff, ChevronDown } from 'lucide-react'
-import { characters } from '@/lib/characters'
 import { sounds } from '@/lib/sounds'
 import { cn } from '@/lib/utils'
 
-type GridSize = 2 | 3 // 2x2 (4 peças) ou 3x3 (9 peças)
+type GridSize = 3 | 4 | 5 // 3x3 (9 peças), 4x4 (16 peças), 5x5 (25 peças)
 
 type Piece = {
   correctIndex: number // posição correta (0..n-1)
   currentIndex: number // posição atual no grid
 }
+
+const puzzleImages = [
+  '/puzzles/puzzle01.png',
+  '/puzzles/puzzle02.png',
+  '/puzzles/puzzle03.png',
+  '/puzzles/puzzle04.png',
+  '/puzzles/puzzle05.png',
+]
+
+const puzzleOptions = puzzleImages.map((image, index) => ({
+  id: image,
+  image,
+  name: `Puzzle ${index + 1}`,
+}))
 
 function shuffleIndices(n: number): number[] {
   const arr = Array.from({ length: n }, (_, i) => i)
@@ -37,8 +50,8 @@ function buildPieces(n: number): Piece[] {
 }
 
 export function PuzzleGame() {
-  const [charId, setCharId] = useState<string>(characters?.[0]?.id ?? 'tosh')
-  const [grid, setGrid] = useState<GridSize>(2)
+  const [charId, setCharId] = useState<string>(puzzleImages?.[0] ?? '/puzzles/puzzle01.png')
+  const [grid, setGrid] = useState<GridSize>(3)
   const [showHint, setShowHint] = useState(true)
   const [pieces, setPieces] = useState<Piece[]>([])
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null)
@@ -49,17 +62,17 @@ export function PuzzleGame() {
   const charMenuRef = useRef<HTMLDivElement | null>(null)
 
   const selectedChar = useMemo(
-    () => characters?.find((c) => c?.id === charId) ?? characters?.[0],
+    () => puzzleOptions?.find((c) => c?.id === charId) ?? puzzleOptions?.[0],
     [charId],
   )
 
-  const totalCells = useMemo(() => (grid ?? 2) * (grid ?? 2), [grid])
+  const totalCells = useMemo(() => (grid ?? 3) * (grid ?? 3), [grid])
 
   const reset = useCallback((newGrid?: GridSize, newCharId?: string) => {
     const g = newGrid ?? grid
     if (newCharId) setCharId(newCharId)
     if (newGrid) setGrid(newGrid)
-    const total = (g ?? 2) * (g ?? 2)
+    const total = (g ?? 3) * (g ?? 3)
     setPieces(buildPieces(total))
     setSelectedSlot(null)
     setMoves(0)
@@ -68,7 +81,7 @@ export function PuzzleGame() {
 
   useEffect(() => {
     setMounted(true)
-    setPieces(buildPieces(4))
+    setPieces(buildPieces(9))
   }, [])
 
   // fechar menu ao clicar fora
@@ -127,7 +140,7 @@ export function PuzzleGame() {
 
   if (!mounted) return <div className="h-96" />
 
-  const gridClass = grid === 2 ? 'grid-cols-2' : 'grid-cols-3'
+  const gridClass = grid === 3 ? 'grid-cols-3' : grid === 4 ? 'grid-cols-4' : 'grid-cols-5'
   // ordenamos as peças por currentIndex para render em ordem de grid
   const ordered = [...(pieces ?? [])].sort((a, b) => (a?.currentIndex ?? 0) - (b?.currentIndex ?? 0))
 
@@ -148,7 +161,7 @@ export function PuzzleGame() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex overflow-hidden rounded-full border-2 border-[#6B4423]/15 bg-[#FFF5EB] p-1 dark:bg-[hsl(20_30%_18%)]">
-            {([2, 3] as GridSize[])?.map((g) => (
+            {([3, 4, 5] as GridSize[])?.map((g) => (
               <button
                 key={g}
                 onClick={() => reset(g)}
@@ -159,7 +172,7 @@ export function PuzzleGame() {
                     : 'text-[#6B4423] hover:bg-white dark:text-[#FFD0A8] dark:hover:bg-[hsl(20_30%_22%)]',
                 )}
               >
-                {g === 2 ? '4 peças' : '9 peças'}
+                {g * g} peças
               </button>
             ))}
           </div>
@@ -184,14 +197,14 @@ export function PuzzleGame() {
           >
             <span className="relative h-7 w-7 overflow-hidden rounded-full bg-[#FFE8D6]">
               <Image
-                src={selectedChar?.image ?? '/characters/tosh.png'}
-                alt={selectedChar?.name ?? 'personagem'}
+                src={selectedChar?.image ?? '/puzzles/puzzle01.png'}
+                alt={selectedChar?.name ?? 'puzzle'}
                 fill
                 className="object-contain p-0.5"
                 sizes="28px"
               />
             </span>
-            Personagem: {selectedChar?.name ?? 'Tosh'}
+            Personagem: {selectedChar?.name ?? 'Puzzle 1'}
             <ChevronDown className={cn('h-4 w-4 transition-transform', charMenuOpen ? 'rotate-180' : '')} />
           </button>
           <AnimatePresence>
@@ -204,7 +217,7 @@ export function PuzzleGame() {
                 role="listbox"
                 className="absolute left-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-2xl border-2 border-[#6B4423]/15 bg-white shadow-xl dark:bg-[hsl(20_30%_16%)]"
               >
-                {characters?.map((c) => (
+                {puzzleOptions?.map((c) => (
                   <li key={c?.id}>
                     <button
                       onClick={() => { setCharMenuOpen(false); reset(grid, c?.id) }}
@@ -364,7 +377,7 @@ function PuzzleSlot({
 }) {
   const correct = piece?.correctIndex ?? 0
   const inRightPlace = correct === slotIndex
-  const cols: number = grid ?? 2
+  const cols: number = grid ?? 3
   const row = Math.floor(correct / cols)
   const col = correct % cols
   // Image-based background: dividimos a imagem em grid

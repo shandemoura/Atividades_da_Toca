@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/webpack-c9d842cb.js",
+      "static/chunks/main-app-6408fa1d.js",
+      "static/chunks/app/page-6157c667.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-c9d842cb.js",
+      "static/chunks/main-app-6408fa1d.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout-2a891881.js"
+    ],
+    "/quebra-cabeca/page": [
+      "static/chunks/webpack-c9d842cb.js",
+      "static/chunks/main-app-6408fa1d.js",
+      "static/chunks/app/quebra-cabeca/page-5535b533.js"
+    ],
+    "/memoria/page": [
+      "static/chunks/webpack-c9d842cb.js",
+      "static/chunks/main-app-6408fa1d.js",
+      "static/chunks/app/memoria/page-5015eccd.js"
+    ]
+  }
+}
