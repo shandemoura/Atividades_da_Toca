@@ -1,25 +1,54 @@
 {
   "pages": {
-    "/page": [
-      "static/chunks/webpack-c9d842cb.js",
-      "static/chunks/main-app-6408fa1d.js",
-      "static/chunks/app/page-6157c667.js"
+    "/_not-found/page": [
+      "static/chunks/webpack-60d64b78.js",
+      "static/chunks/fd9d1056-8e0367ad.js",
+      "static/chunks/117-760cd612.js",
+      "static/chunks/main-app-eb64975f.js",
+      "static/chunks/app/_not-found/page-e8a2f37b.js"
     ],
     "/layout": [
-      "static/chunks/webpack-c9d842cb.js",
-      "static/chunks/main-app-6408fa1d.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout-2a891881.js"
+      "static/chunks/webpack-60d64b78.js",
+      "static/chunks/fd9d1056-8e0367ad.js",
+      "static/chunks/117-760cd612.js",
+      "static/chunks/main-app-eb64975f.js",
+      "static/css/09f9bc8a74536bac.css",
+      "static/chunks/app/layout-8b09bbdd.js"
     ],
-    "/quebra-cabeca/page": [
-      "static/chunks/webpack-c9d842cb.js",
-      "static/chunks/main-app-6408fa1d.js",
-      "static/chunks/app/quebra-cabeca/page-5535b533.js"
+    "/page": [
+      "static/chunks/webpack-60d64b78.js",
+      "static/chunks/fd9d1056-8e0367ad.js",
+      "static/chunks/117-760cd612.js",
+      "static/chunks/main-app-eb64975f.js",
+      "static/chunks/641-faf4def6.js",
+      "static/chunks/app/page-b25e8726.js"
     ],
     "/memoria/page": [
-      "static/chunks/webpack-c9d842cb.js",
-      "static/chunks/main-app-6408fa1d.js",
-      "static/chunks/app/memoria/page-5015eccd.js"
+      "static/chunks/webpack-60d64b78.js",
+      "static/chunks/fd9d1056-8e0367ad.js",
+      "static/chunks/117-760cd612.js",
+      "static/chunks/main-app-eb64975f.js",
+      "static/chunks/641-faf4def6.js",
+      "static/chunks/509-68fb751a.js",
+      "static/chunks/app/memoria/page-6511502a.js"
+    ],
+    "/quebra-cabeca/page": [
+      "static/chunks/webpack-60d64b78.js",
+      "static/chunks/fd9d1056-8e0367ad.js",
+      "static/chunks/117-760cd612.js",
+      "static/chunks/main-app-eb64975f.js",
+      "static/chunks/641-faf4def6.js",
+      "static/chunks/509-68fb751a.js",
+      "static/chunks/app/quebra-cabeca/page-4c39dbda.js"
+    ],
+    "/quiz/page": [
+      "static/chunks/webpack-60d64b78.js",
+      "static/chunks/fd9d1056-8e0367ad.js",
+      "static/chunks/117-760cd612.js",
+      "static/chunks/main-app-eb64975f.js",
+      "static/chunks/641-faf4def6.js",
+      "static/chunks/509-68fb751a.js",
+      "static/chunks/app/quiz/page-ecc9fcbd.js"
     ]
   }
 }
