@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/Volumes/Arquivos/Documents/Toca do Tosh/Atividades_da_Toca/app/layout":["static/media/13971731025ec697-s.p.woff2","static/media/bca7023bf625e650-s.p.woff2","static/media/bb3ef058b751a6ad-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';
